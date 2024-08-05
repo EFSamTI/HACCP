@@ -1,0 +1,14 @@
+quarkus:
+  container-image:
+    builder: docker
+  datasource:
+    "HACCP":
+      db-kind: postgresql
+      username: ${HACCP_PG_USERNAME}
+      password: ${HACCP_PG_PASSWORD}
+      reactive:
+        url: ${HACCP_PG_URL}
+  http:
+    host: 0.0.0.0
+    port: 8101
+    root-path: /v1/api
