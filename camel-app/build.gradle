@@ -15,3 +15,7 @@ dependencies {
 
     implementation 'javax.enterprise:cdi-api:2.0'
 }
+
+camelRun {
+    
+}
