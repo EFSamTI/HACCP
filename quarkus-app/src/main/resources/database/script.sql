@@ -144,32 +144,34 @@ alter function total_by_state(int) owner to haccp;
 
 
 CREATE OR REPLACE FUNCTION public.validate_lot(input_json text)
- RETURNS jsonb
- LANGUAGE plpgsql
+RETURNS jsonb
+LANGUAGE plpgsql
 AS $function$
 DECLARE
     v_lots jsonb;
-    v_lot jsonb;
-    v_haccp_lot varchar;
-    v_lot_data jsonb;
-    v_result jsonb = '[]'::jsonb;
+    v_result jsonb;
 BEGIN
     v_lots := input_json::jsonb;
-    FOR v_lot IN SELECT * FROM jsonb_array_elements(v_lots)
-    LOOP
-        v_haccp_lot := (v_lot->'haccp_lot')->>0;
-        v_lot_data := v_lot->'lot';
-        IF NOT EXISTS (SELECT 1 FROM haccp_lot WHERE lot = v_haccp_lot) THEN
-            v_result := v_result || jsonb_build_object(
-                'haccp_lot', jsonb_build_array(v_haccp_lot),
-                'lot', v_lot_data
-            );
-        END IF;
-    END LOOP;
-    RETURN v_result;
+    with lot_elements as (
+        select jsonb_array_elements(v_lots) as v_lot
+    ), 
+    haccp_lots as (
+        select (v_lot->'haccp_lot')->>0 as v_haccp_lot, v_lot->'lot' as v_lot_data
+        from lot_elements
+    ),
+    no_exiting_lot as (
+    	select v_haccp_lot, v_lot_data 
+    	from haccp_lots
+    	where not exists (select 1 from haccp_lot where lot = v_haccp_lot)
+    )
+    select jsonb_agg(jsonb_build_object(
+    	'haccp_lot', jsonb_build_array(v_haccp_lot),
+    	'lot', v_lot_data
+    )) into v_result 
+    from no_exiting_lot;
+    return v_result;
 END;
-$function$
-
+$function$;
 
 
 -- TEST
