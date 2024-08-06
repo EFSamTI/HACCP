@@ -19,7 +19,7 @@ public class PGService {
     public Uni<Long> totalByState(Integer state) {
         return pg.preparedQuery("select * from total_by_state($1)")
                 .execute(Tuple.of(state))
-                .onItem().transform(set -> set.iterator().next().getLong(1));
+                .onItem().transform(set -> set.iterator().next().getLong(0));
     }
 
     public Multi<HaccpModel> searchByState(Integer state, Integer offset, Integer limit) {
@@ -38,6 +38,6 @@ public class PGService {
     public Uni<JsonObject> updateState(String lot, Integer state) {
         return pg.preparedQuery("select * from update_state($1, $2)")
                 .execute(Tuple.of(lot, state))
-                .onItem().transform(set -> set.iterator().next().getJsonObject(1));
+                .onItem().transform(set -> set.iterator().next().getJsonObject(0));
     }
 }

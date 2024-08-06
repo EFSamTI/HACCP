@@ -11,4 +11,4 @@ pluginManagement {
 rootProject.name='haccp'
 
 include 'quarkus-app'
-include 'camel-app'
+// include 'camel-app'
