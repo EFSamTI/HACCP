@@ -2,15 +2,14 @@ package ec.com.eurofish.resource;
 
 import ec.com.eurofish.model.HaccpModel;
 import ec.com.eurofish.model.SearchRequest;
+import ec.com.eurofish.model.SearchResponse;
 import ec.com.eurofish.model.UpdateRequest;
 import ec.com.eurofish.service.PGService;
-import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -32,7 +31,8 @@ public class HaccpResource {
                 .onItem().transform(ResponseBuilder::build);
     }
 
-    @PUT
+    @POST
+    @Path("update-state")
     public Uni<Response> updateState(UpdateRequest request) {
         return pg.updateState(request.getLot(), request.getState())
                 .onItem().transform(x -> Response.ok(x))
@@ -41,7 +41,21 @@ public class HaccpResource {
 
     @POST
     @Path("search")
-    public Multi<HaccpModel> searchByState(SearchRequest request) {
-        return pg.searchByState(request.getState(), request.getOffset(), request.getLimit());
+    public Uni<SearchResponse<HaccpModel>> searchByState(SearchRequest request) {
+        var total = pg.totalByState(request.getState());
+        var data = pg.searchByState(
+                request.getState(),
+                request.getOffset(),
+                request.getLimit()).collect().asList();
+
+        return Uni.combine().all()
+                .unis(total, data)
+                .asTuple()
+                .onItem().transform(tuple -> {
+                    return SearchResponse.<HaccpModel>builder()
+                            .total(tuple.getItem1())
+                            .data(tuple.getItem2())
+                            .build();
+                });
     }
 }

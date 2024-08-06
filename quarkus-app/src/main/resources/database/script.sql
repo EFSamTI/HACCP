@@ -110,18 +110,16 @@ drop function if exists search_by_state(int, int, int);
 
 create or replace function search_by_state(int, int, int) returns table (
 	lot character varying,
-	body json,
-	total bigint
+	body json
 ) as
 $$
 declare	v_total bigint;
 begin
-	select count(*) into v_total from haccp_lot where state = $1;
 	return query
 		with x(i, ordered_lot, ordered_body) as (
 			select row_number() over(order by l.lot), l.lot, l.body
 			from haccp_lot l where l.state = $1
-		) select ordered_lot, ordered_body, v_total from x offset $2 limit $3;
+		) select ordered_lot, ordered_body from x offset $2 limit $3;
 end;
 $$ language plpgsql;
 
@@ -129,3 +127,17 @@ alter function search_by_state(int, int, int) owner to haccp;
 
 -- TEST
 -- select * from search_by_state(1, 0, 10)
+
+-- TOTAL_BY_STATE
+drop function if exists total_by_state(int);
+
+create or replace function total_by_state(int)
+returns bigint as
+$$
+	select count(*) from haccp_lot where state = $1;
+$$ language sql;
+
+alter function total_by_state(int) owner to haccp;
+
+-- TEST
+-- select * from total_by_state(1)

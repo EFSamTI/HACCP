@@ -16,6 +16,12 @@ public class PGService {
     @ReactiveDataSource("HACCP")
     PgPool pg;
 
+    public Uni<Long> totalByState(Integer state) {
+        return pg.preparedQuery("select * from total_by_state($1)")
+                .execute(Tuple.of(state))
+                .onItem().transform(set -> set.iterator().next().getLong(1));
+    }
+
     public Multi<HaccpModel> searchByState(Integer state, Integer offset, Integer limit) {
         return pg.preparedQuery("select * from search_by_state($1, $2, $3)")
                 .execute(Tuple.of(state, offset, limit))
