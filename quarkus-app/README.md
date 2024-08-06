@@ -1,4 +1,6 @@
 # Para pruebas locales
+
+## Unix/Linux
 Crear un archivo .env con las siguientes variables:
 ```
 HACCP_PG_URL=postgresql://192.168.248.245:5432/haccp
@@ -7,6 +9,17 @@ HACCP_PG_PASSWORD=maJ5Se9BUJaH2s3Hd
 ```
 
 En una terminal ejecutar ```./gradlew :quarkus-app:quarkusDev -Denv-file=.env```
+
+
+## Windows 
+Ingresa las variables de entorno por consola:
+
+```
+$env:HACCP_PG_URL="postgresql://192.168.248.245:5432/haccp"
+$env:HACCP_PG_USERNAME="haccp"
+$env:HACCP_PG_PASSWORD="maJ5Se9BUJaH2s3Hd"
+.\gradlew :quarkus-app:quarkusDev
+```
 
 ## Buscar por estado
 ```
