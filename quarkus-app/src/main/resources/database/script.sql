@@ -141,3 +141,41 @@ alter function total_by_state(int) owner to haccp;
 
 -- TEST
 -- select * from total_by_state(1)
+
+
+CREATE OR REPLACE FUNCTION public.validate_lot(input_json text)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+    v_lots jsonb;
+    v_lot jsonb;
+    v_haccp_lot varchar;
+    v_lot_data jsonb;
+    v_result jsonb = '[]'::jsonb;
+BEGIN
+    v_lots := input_json::jsonb;
+    FOR v_lot IN SELECT * FROM jsonb_array_elements(v_lots)
+    LOOP
+        v_haccp_lot := (v_lot->'haccp_lot')->>0;
+        v_lot_data := v_lot->'lot';
+        IF NOT EXISTS (SELECT 1 FROM haccp_lot WHERE lot = v_haccp_lot) THEN
+            v_result := v_result || jsonb_build_object(
+                'haccp_lot', jsonb_build_array(v_haccp_lot),
+                'lot', v_lot_data
+            );
+        END IF;
+    END LOOP;
+    RETURN v_result;
+END;
+$function$
+
+
+
+-- TEST
+
+/*
+SELECT public.validate_lot(
+    '[{"haccp_lot": ["890-1-22-2"], "lot": {"pk": "67922022-cd05-4057-9295-c78afbe03d99", "code": "890-1-2022", "name": "890-1-2022", "trip": "1", "year": "2022", "vessel": {"pk": "1bffba7d-64a6-40aa-b166-a8b15a528a39", "name": "CORDOVA- \"OBI PWS FLEET\"", "vesselCode": "890"}, "supplier": {"pk": "925b4319-b117-4619-81f1-e367d3091115", "name": "OBI PWS FLEET"}, "vessel_lot": "890-1-2022", "source_type": {"pk": "9f762176-3802-4a86-8d7b-303b1935de0a", "name": "Contenedores"}, "eurofishcode": "890", "certification": "No", "purchaseOrder": "S/F-1-2022", "transshipment": "No", "landing_location": {"pk": "bcb5115d-3e84-498a-afc6-ce2cdac67332", "name": "Manta, Ecuador", "unloadingPort": "EC  MEC", "unloadingPortlocode": "EC MEC", "unloadingPortcoordinates": "0057S 08044W "}, "unloadingStartDate": "2022-12-27", "reference_reception": "CGMU 5523706"}}]'
+);
+*/
