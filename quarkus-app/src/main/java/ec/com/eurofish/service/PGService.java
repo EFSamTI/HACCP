@@ -4,6 +4,7 @@ import ec.com.eurofish.model.HaccpModel;
 import io.quarkus.reactive.datasource.ReactiveDataSource;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
@@ -39,5 +40,11 @@ public class PGService {
         return pg.preparedQuery("select * from update_state($1, $2)")
                 .execute(Tuple.of(lot, state))
                 .onItem().transform(set -> set.iterator().next().getJsonObject(0));
+    }
+
+    public Uni<JsonArray> validateLot(JsonArray jsonArray) {
+        return pg.preparedQuery("select validate_lot($1)")
+                .execute(Tuple.of(jsonArray.encode()))
+                .onItem().transform(set -> set.iterator().next().getJsonArray(0));
     }
 }

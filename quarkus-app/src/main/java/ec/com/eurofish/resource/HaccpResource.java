@@ -6,6 +6,7 @@ import ec.com.eurofish.model.SearchResponse;
 import ec.com.eurofish.model.UpdateRequest;
 import ec.com.eurofish.service.PGService;
 import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -57,5 +58,13 @@ public class HaccpResource {
                             .data(tuple.getItem2())
                             .build();
                 });
+    }
+
+    @POST
+    @Path("validate")
+    public Uni<Response> validateLot(JsonArray jsonArray) {
+        return pg.validateLot(jsonArray)  
+                .onItem().transform(x -> Response.ok(x))
+                .onItem().transform(ResponseBuilder::build);
     }
 }
