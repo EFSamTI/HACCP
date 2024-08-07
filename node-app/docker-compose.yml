@@ -1,0 +1,35 @@
+
+services:
+  postgresdb:
+    container_name: postgresdb-container
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_USER: $USER
+      POSTGRES_PASSWORD: $PASSWORD_BD
+      POSTGRES_DB: $DATABASE
+      
+    ports:
+      - "5433:$PORT_DB"
+    volumes:
+      - db:/var/lib/postgres
+        
+  app-prod:
+    container_name: app-prod-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["npm", "run", "start:prod"]
+    ports:
+      - "6501:6505"
+    environment:
+      NODE_ENV: prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes: 
+  db:
