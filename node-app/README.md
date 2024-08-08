@@ -36,8 +36,9 @@ LOGS_PORT=5000
 ### Con contenedor
 ```
 tsc
+docker-compose up --build
 ```
-`docker-compose up --build`
+Instalar globalmente typescrit `npm install -g typescript`
 
 ## Crear petición
 ```
