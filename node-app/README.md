@@ -11,7 +11,7 @@ Para levantar el software, debe realizar los siguientes pasos:
 ```
 # Variables de entorno para la aplicación
 PORT=6505
-URL=localhost
+URL=0.0.0.0
 
 #Variables de entorno para la base de datos
 HOST=192.168.248.245
@@ -35,9 +35,9 @@ LOGS_PORT=5000
 
 ### Con contenedor
 ```
-tsc
-docker-compose build
-docker-compose up -d
+npm run build
+docker-compose up --build haccp-app
+docker-compose up haccp-app
 ```
 Instalar globalmente typescrit `npm install -g typescript`
 

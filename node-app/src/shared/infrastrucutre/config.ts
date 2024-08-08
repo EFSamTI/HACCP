@@ -7,7 +7,7 @@ dotenv.config({ path: `./${envFile}` });
 export const config = {
     server: {
         port: Number(process.env.PORT) || 3000,
-        url: process.env.URL || 'localhost',
+        url: process.env.URL  || '0.0.0.0',
     },
     database: {
         host: process.env.HOST,
@@ -17,7 +17,7 @@ export const config = {
         database: process.env.DATABASE,
     },
     logs: {
-        host: process.env.LOGS_HOST || 'localhost',
+        host: process.env.LOGS_HOST  || '0.0.0.0',
         port: Number(process.env.LOGS_PORT) || 12201,
     },
     middleware: {

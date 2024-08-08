@@ -15,6 +15,8 @@ export class HaccpController {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(500).json(response.failed(500, error.message));
+            }else{
+                return res.status(500).json(response.failed(500, "Error al agregar lote"));
             }
         }
     }
@@ -28,7 +30,10 @@ export class HaccpController {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(500).json(response.failed(500, error.message));
+            } else {
+                return res.status(500).json(response.failed(500, "Error al actualizar estado"));
             }
+
         }
     }
 
@@ -48,6 +53,8 @@ export class HaccpController {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(500).json(response.failed(500, error.message));
+            } else {
+                return res.status(500).json(response.failed(500, "Error al buscar por estado"));
             }
         }
     }

@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { peticionRoute } from './peticion/infraestructure/rest-api/peticion-route';

@@ -1,6 +1,5 @@
 import { HttpError } from '../../domain/httpError';
 import { HttpSuccess } from '../../domain/httpSucess';
-import { response } from '../dependencies';
 
 export class HttpResponse  {
 

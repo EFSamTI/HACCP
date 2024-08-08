@@ -1,21 +1,41 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "jsx": "preserve",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "rootDir": "./src",
-    "outDir": "./build",
+    "lib": ["es2018", "dom"], 
+    "target": "es2018", 
+    "module": "commonjs", 
+    "strict": true, 
+    "baseUrl": ".",
+    "outDir": "dist", 
+    "rootDir": ".", 
+    "skipLibCheck": true, 
+    "esModuleInterop": true, 
+    "moduleResolution": "node", 
+    "resolveJsonModule": true,
     "removeComments": true,
-    "noEmit": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "checkJs": true
+
+    "paths": {
+      "@src/*": ["src/*"] 
+    },
+
+    "strictNullChecks": true, 
+    "strictFunctionTypes": true, 
+    "strictPropertyInitialization": true, 
+    "strictBindCallApply": true, 
+    "forceConsistentCasingInFileNames": true, 
+
+    "noImplicitAny": true, 
+    "noImplicitThis": true, 
+    "alwaysStrict": true, 
+
+    "noUnusedLocals": true, 
+    "noUnusedParameters": true, 
+    "noImplicitReturns": true, 
+    "noFallthroughCasesInSwitch": true 
   },
-  "exclude": ["node_modules", "build"]
+  "include": [
+    "src/**/*" 
+  ],
+  "exclude": [
+    "node_modules", 
+  ]
 }

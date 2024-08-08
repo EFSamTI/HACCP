@@ -10,13 +10,15 @@ export class PeticionController {
     
 
 
-    async sendHttpRequestBussinesOneBodega(req: Request, res: Response) {
+    async sendHttpRequestBussinesOneBodega(res: Response) {
         try {
             const dataResponse = await this.peticionBussinesOne.sendHttpRequestBussinesOneBodega();
             return res.status(200).json(response.success("Se obtuvo las bodegas de Bussiness One", dataResponse));
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(500).json(response.failed(500, error.message));
+            } else {
+                return res.status(500).json(response.failed(500, "Error al obtener las bodegas de Bussiness One"));
             }
         }
     }
@@ -29,6 +31,8 @@ export class PeticionController {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(500).json(response.failed(500, error.message));
+            } else {
+                return res.status(500).json(response.failed(500, "Error al obtener las ubicaciones de la bodega"));
             }
         }
     }
