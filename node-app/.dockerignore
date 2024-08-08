@@ -3,4 +3,5 @@ resources/
 
 *.git
 Dockerfile*
-
+logstash.conf
+README.md
