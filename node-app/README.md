@@ -34,6 +34,9 @@ LOGS_PORT=5000
 `npm run start:prod`
 
 ### Con contenedor
+```
+tsc
+```
 `docker-compose up --build`
 
 ## Crear petición

@@ -12,7 +12,7 @@ FROM nginx
 
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 COPY ../certs /etc/nginx/certs
-COPY <<NOMBRE DE LA CARPETA CON EL COMPILADO>> /etc/nginx/html
+COPY build /etc/nginx/html
 
 EXPOSE 80
 EXPOSE 443
