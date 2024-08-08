@@ -1,6 +1,7 @@
 import { Logger } from "../../../shared/domain/logger";
 import { CuerpoService } from "../../domain/services/cuerpoService";
 import { sendHttpRequest } from "../../infraestructure/rest-api/sendHttpRequest";
+import { ResponseSearchRequestByType } from "../interfaces/response-search-request";
 
 
 
@@ -11,13 +12,13 @@ export class PeticionBussinesOne {
   ) {}
   async sendHttpRequestBussinesOneBodega() {
     this.logger.info(`Creating peticion al ambiente bodega`);
-    const cuerpo = await this.cuerpoService.getBodega();
-    if (!cuerpo){
+    const cuerpo:ResponseSearchRequestByType = await this.cuerpoService.searchRequestByType("BUSSINES-ONE-BODEGA");
+    if (!cuerpo.search_request_by_type){
       const error = new Error(`Datos de petición not found`);
       this.logger.error(error.message);
       throw error;
     };
-    const response = await sendHttpRequest(cuerpo);
+    const response = await sendHttpRequest(cuerpo.search_request_by_type);
     this.logger.info(`Peticion realizada con exito`);
     return response;
 
@@ -29,33 +30,17 @@ export class PeticionBussinesOne {
       throw error;
     }
     this.logger.info(`Creating peticion al ambiente bodega`);
-    const cuerpo = await this.cuerpoService.getUbicacionesBodega();
+    const cuerpo:ResponseSearchRequestByType = await this.cuerpoService.searchRequestByType("BUSSINES-ONE-UBICACIONES");
     if (!cuerpo){
       const error = new Error(`Datos de petición not found`);
       this.logger.error(error.message);
       throw error;
     };
 
-
-    // {
-    //   "body": {
-    //     "tipo": "BUSSINES-ONE-UBICACIONES",
-    //     "url": "https://integrador.eurofish.com.ec:8490/v1/api/message/business-one",
-    //     "source": "1",
-    //     "destination": "578c19ea-5930-417d-8fcc-661536f0775c",
-    //     "operation": "R",
-    //     "verb": "GET",
-    //     "path": "/BinLocations?$select=AbsEntry,BinCode",
-    //     "ambiente": "production"
-    //   }
-
-    //path: `/BinLocations?$filter=Warehouse eq '${bodega}'&$select=AbsEntry,BinCode`,
-
-    const pathBodegga = cuerpo.path;
+    const pathBodegga = cuerpo.search_request_by_type.path;
     const newPath = `${pathBodegga}?$filter=Warehouse eq '${bodega}'&$select=AbsEntry,BinCode`;
-    cuerpo.path = newPath;
-
-    const response = await sendHttpRequest(cuerpo);
+    cuerpo.search_request_by_type.path = newPath; 
+    const response = await sendHttpRequest(cuerpo.search_request_by_type);
     this.logger.info(`Peticion realizada con exito`);
     return response;
   }

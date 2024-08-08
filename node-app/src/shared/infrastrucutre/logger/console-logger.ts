@@ -1,11 +1,12 @@
 import { Logger, Message } from "../../domain/logger";
+import { loggerTash } from "./logging";
 
 export class ConsoleLogger implements Logger {
   info(message: Message): void {
-    console.log(message);
+    loggerTash.info(message);
   }
 
   error(message: Message): void {
-    console.error(message);
+    loggerTash.error(message);
   }
 }

@@ -7,7 +7,7 @@ type SimpleHttpSuccess = HttpSuccess;
 export type HttpSuccessMessage = SimpleHttpSuccess | HttpSuccessWithContext;
 
 export interface HttpSuccess {
-    code: number;
     message: string;
-    data?: any;
+    items?: any;
+    total?: number | null;
 }

@@ -1,6 +1,4 @@
 import dotenv from "dotenv";
-
-
 const nodeEnv = String(process.env.NODE_ENV).trim();
 
 const envFile = nodeEnv === 'dev' ? '.env.dev' : '.env';
@@ -17,5 +15,10 @@ export const config = {
         user: process.env.USER,
         password: process.env.PASSWORD_BD,
         database: process.env.DATABASE,
-    }
+    },
+    logs: {
+        host: process.env.LOGS_HOST || 'localhost',
+        port: Number(process.env.LOGS_PORT) || 12201,
+    },
+
 };

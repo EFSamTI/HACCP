@@ -4,20 +4,20 @@ import { response } from '../dependencies';
 
 export class HttpResponse  {
 
-    success(code: number, message: string,  data?: any) {
+    success( message: string,  items?: any, total?: number) {
         const response:HttpSuccess = {
-            code,
             message,
-            data
+            items,
+            total: total || null
         }
         return response;
     }
 
-    failed(code: number, error: string, timestamp: string) {
+    failed(code: number, error: string) {
         const response: HttpError = {
             code,
             error,
-            timestamp
+            timestamp: new Date().toISOString()
         }
         return response;
     }

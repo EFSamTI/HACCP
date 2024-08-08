@@ -1,8 +1,8 @@
 import { logger } from "../../../shared/infrastrucutre/dependencies";
-import { CuerpoPeticion } from "../../domain/entities/cuerpo";
+import { Searchrequestbytype } from "../../aplication/interfaces/response-search-request";
 
-export const sendHttpRequest = async (cuerpo: CuerpoPeticion, body?: any) => {
-  const url = `${cuerpo.tipo.url}`;
+export const sendHttpRequest = async (cuerpo: Searchrequestbytype, body?: any) => {
+  const url = `${cuerpo.url}`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
