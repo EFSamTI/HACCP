@@ -1,0 +1,7 @@
+FROM nginx
+
+ENV TZ America/Guayaquil
+
+COPY nginx.conf.dev /etc/nginx/conf.d/nginx.conf
+
+EXPOSE 80

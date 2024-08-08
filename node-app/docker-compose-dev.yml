@@ -1,0 +1,29 @@
+services:
+  haccp-app:
+    container_name: haccp-app
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    hostname: web
+    restart: unless-stopped
+    ports:
+      - "6505:6505"
+    command: ["npm", "run", "start:prod"]
+  haccp-nginx:
+    container_name: haccp-reverse-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx.dev
+    ports:
+      - "8805:80"
+    environment:
+      NODE_ENV: prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - haccp-app
+volumes: 
+  db:
