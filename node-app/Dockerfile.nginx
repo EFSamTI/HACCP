@@ -1,0 +1,9 @@
+FROM nginx
+
+ENV TZ America/Guayaquil
+
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY certs /etc/nginx/certs
+
+EXPOSE 80
+EXPOSE 443
