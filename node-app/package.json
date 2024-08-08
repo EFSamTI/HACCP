@@ -32,7 +32,6 @@
     "morgan": "^1.10.0",
     "node-app": "file:",
     "pg": "^8.12.0",
-    "typeorm": "^0.3.20",
     "winston": "^3.13.1",
     "winston-logstash-ts": "^0.2.3"
   }

@@ -1,21 +1,26 @@
+import path from "path";
 import { logger } from "../../../shared/infrastrucutre/dependencies";
-import { Searchrequestbytype } from "../../aplication/interfaces/response-search-request";
+import { HttpRequest } from '../../../vessels/aplication/interfaces/http-request';
 
-export const sendHttpRequest = async (cuerpo: Searchrequestbytype, body?: any) => {
-  const url = `${cuerpo.url}`;
+export const sendHttpRequest = async (HttpRequest: HttpRequest) => {
+  const url = `${HttpRequest.url}`;
+  const bodyRequest:any = {
+    source: HttpRequest.source,
+    destination: HttpRequest.destination,
+    operation: HttpRequest.operation,
+    verb: HttpRequest.verb,
+    path: HttpRequest.path,
+    body: HttpRequest || null,
+  }
+  if (HttpRequest.feedback) {
+    bodyRequest.feedback = HttpRequest.feedback;
+  }
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      source: cuerpo.source,
-      destination: cuerpo.destination,
-      operation: cuerpo.operation,
-      verb: cuerpo.verb,
-      path: cuerpo.path,
-      body: body || null,
-    }),
+    body: JSON.stringify(bodyRequest),
   });
 
   if (response.status !== 200) {

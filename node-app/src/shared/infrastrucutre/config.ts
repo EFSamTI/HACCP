@@ -20,5 +20,11 @@ export const config = {
         host: process.env.LOGS_HOST || 'localhost',
         port: Number(process.env.LOGS_PORT) || 12201,
     },
-
+    middleware: {
+        url: process.env.URL_MIDDLEWARE,
+        source: process.env.SOURCE,
+        destination: process.env.DESTINATION,
+        operation: process.env.OPERATION,
+        verb: process.env.VERB,
+    },
 };
