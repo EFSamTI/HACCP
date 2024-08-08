@@ -150,6 +150,9 @@
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-maven-plugin</artifactId>
         <version>3.20.2</version>
+        <configuration>
+          <!-- <mainClass></mainClass> -->
+        </configuration>
         <dependencies>
           <dependency>
             <groupId>org.apache.deltaspike.cdictrl</groupId>

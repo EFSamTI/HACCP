@@ -2,11 +2,13 @@ package ec.com.eurofish;
 
 import javax.inject.Inject;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.Uri;
 import org.apache.camel.component.http.HttpMethods;
+import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
 import ec.com.eurofish.model.Message;
@@ -17,7 +19,7 @@ import ec.com.eurofish.model.Message;
 public class MyRoutes extends RouteBuilder {
 
         @Inject
-        @Uri("timer:foo?period=5000")
+        @Uri("timer:foo?period={{timer.period}}")
         private Endpoint inputEndpoint;
 
         @Inject
@@ -32,8 +34,18 @@ public class MyRoutes extends RouteBuilder {
         @Uri("paho-mqtt5:blz/haccp?brokerUrl=ssl://integrador.eurofish.com.ec:8883&userName=mosquitto&password=mosquitto")
         private Endpoint haccp;
 
+        @Inject
+        CamelContext context;
+
         @Override
         public void configure() {
+                PropertiesComponent pc = new PropertiesComponent();
+                pc.setLocation("classpath:com/mycompany/myprop.properties");
+                context.addComponent("properties", pc);
+
+                context.getPropertiesComponent().setLocation("classpath:application.properties");
+                // pc.setLocation("classpath:application.properties");
+                // context.setPropertiesComponent(pc);
                 // you can configure the route rule with Java DSL here
 
                 // from(inputEndpoint)
@@ -47,7 +59,10 @@ public class MyRoutes extends RouteBuilder {
                                 .to("log:output");
 
                 from(inputEndpoint)
-                                .process(exchange -> exchange.getIn().setBody(Message.test()))
+                                .process(exchange -> exchange.getIn().setBody(Message.create(
+                                                "",
+                                                "{{tally.destination}}",
+                                                "{{tally.path}}")))
                                 .marshal().json(JsonLibrary.Jackson)
                                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.POST))
                                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
