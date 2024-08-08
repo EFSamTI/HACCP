@@ -7,7 +7,24 @@ Para levantar el software, debe realizar los siguientes pasos:
 1. Clone el repositorio desde la URL proporcionada.
 2. Navegue hasta el directorio del proyecto backend.
 3. Instale las dependencias utilizando el comando `npm install`.
-4. Configure las variables de entorno necesarias en la carpeta `env` 
+4. Crear un archivo .env con las siguientes variables en la ruta raiz de node app
+```
+# Variables de entorno para la aplicación
+PORT=6505
+URL=localhost
+
+#Variables de entorno para la base de datos
+HOST=192.168.248.245
+PORT_DB=5432
+USER=haccp
+PASSWORD_BD=maJ5Se9BUJaH2s3Hd
+DATABASE=haccp
+
+#Variables de entorno para el servidor de logs
+LOGS_HOST=localhost
+LOGS_PORT=5000
+
+```
 
 ### Pruebas locales
 `npm run dev`
