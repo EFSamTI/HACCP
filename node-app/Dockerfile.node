@@ -5,6 +5,7 @@ ENV TZ America/Guayaquil
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+COPY . ./
 COPY build /app/build
 
 EXPOSE 6505

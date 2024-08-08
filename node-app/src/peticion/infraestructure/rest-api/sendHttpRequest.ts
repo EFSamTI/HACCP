@@ -1,4 +1,3 @@
-import path from "path";
 import { logger } from "../../../shared/infrastrucutre/dependencies";
 import { HttpRequest } from '../../../vessels/aplication/interfaces/http-request';
 
