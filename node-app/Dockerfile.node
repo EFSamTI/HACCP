@@ -5,7 +5,7 @@ ENV TZ America/Guayaquil
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY build /app
+COPY build /app/build
 
 EXPOSE 6505
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
