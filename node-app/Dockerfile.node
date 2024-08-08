@@ -1,0 +1,11 @@
+FROM node:20-bullseye
+
+ENV TZ America/Guayaquil
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY build /app
+
+EXPOSE 6505
+CMD ["npm", "start"]

@@ -1,29 +1,22 @@
-
 services:
-  postgresdb:
-    container_name: postgresdb-container
-    image: postgres
-    restart: unless-stopped
-    env_file:
-      - ./.env
-    environment:
-      POSTGRES_USER: $USER
-      POSTGRES_PASSWORD: $PASSWORD_BD
-      POSTGRES_DB: $DATABASE
-      
-    ports:
-      - "5433:$PORT_DB"
-    volumes:
-      - db:/var/lib/postgres
-        
-  app-prod:
-    container_name: app-prod-container
+  haccp-app:
+    container_name: haccp-app
     build:
       context: .
-      dockerfile: Dockerfile
-    command: ["npm", "run", "start:prod"]
+      dockerfile: Dockerfile.node
+    hostname: web
+    restart: unless-stopped
     ports:
-      - "6501:6505"
+      - "6505:6505"
+    command: ["npm", "run", "start:prod"]
+  haccp-nginx:
+    container_name: haccp-reverse-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8805:80"
+      - "8845:443"
     environment:
       NODE_ENV: prod
     logging:
@@ -31,5 +24,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    depends_on:
+      - haccp-app
 volumes: 
   db:
