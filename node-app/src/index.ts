@@ -1,6 +1,6 @@
 import app from './app';
-import { config } from './shared/infrastrucutre/config';
-import { logger } from './shared/infrastrucutre/dependencies';
+import { config } from './shared/infrastructure/config';
+import { logger } from './shared/infrastructure/dependencies';
 
 async function main() {
     try {

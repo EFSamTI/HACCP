@@ -1,7 +1,7 @@
 import { Logger } from "../../../shared/domain/logger";
-import { HttpRequest } from "../../../vessels/aplication/interfaces/http-request";
+import { HttpRequest } from "../../../shared/domain/interfaces/http-request";
 import { CuerpoService } from "../../domain/services/cuerpoService";
-import { sendHttpRequest } from "../../infraestructure/rest-api/sendHttpRequest";
+import { sendHttpRequest } from "../../../shared/infrastructure/rest/sendHttpRequest";
 import { ResponseSearchRequestByType } from "../interfaces/response-search-request";
 
 export class PeticionBussinesOne {

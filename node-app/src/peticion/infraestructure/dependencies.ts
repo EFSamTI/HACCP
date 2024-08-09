@@ -1,4 +1,4 @@
-import { logger, pgClient } from "../../shared/infrastrucutre/dependencies";
+import { logger, pgClient } from "../../shared/infrastructure/dependencies";
 import { PeticionBussinesOne } from "../aplication/usecases/peticion-bussines-one";
 
 import { CuerpoService } from "../domain/services/cuerpoService";

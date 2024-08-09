@@ -24,6 +24,14 @@ DATABASE=haccp
 LOGS_HOST=localhost
 LOGS_PORT=5000
 
+#Variables de entorno para el middleware 
+MW_URL=https://integrador.eurofish.com.ec:8490/v1/api/message/generic
+MW_SOURCE=e33634e1-4bbc-4b0c-aed9-d4d70431c88b
+MW_DESTINATION=9a5f6001-4b83-42e0-b78e-6bd4f127dff3
+MW_OPERATION=R
+MW_VERB=POST
+MW_PATH=/2c99d65c-8ef9-4aa2-814c-352a0c23b201
+
 ```
 
 ### Pruebas locales
@@ -41,37 +49,12 @@ docker-compose up haccp-app
 ```
 Instalar globalmente typescrit `npm install -g typescript`
 
-## Crear petición
+## Obtener información lote
 ```
-curl --location 'http://localhost:6505/api/v1/peticion' \
+curl --location 'http://localhost:6505/v1/api/haccp/vessel-lot-info' \
 --header 'Content-Type: application/json' \
 --data '{
-   "body":{ 
-        "tipo": "BUSSINES-ONE-BODEGA",
-        "url": "https://integrador.eurofish.com.ec:8490/v1/api/message/business-one",
-        "source": "1",
-        "destination": "578c19ea-5930-417d-8fcc-661536f0775c",
-        "operation": "R",
-        "verb": "GET",
-        "path": "/BinLocations?$select=Warehouse",
-        "ambiente": "PRUEBA"
-    }
-}'
-
-curl --location 'http://localhost:6505/api/v1/peticion' \
---header 'Content-Type: application/json' \
---data '{
-   "body":
-   { 
-        "tipo": "BUSSINES-ONE-UBICACIONES",
-        "url": "https://integrador.eurofish.com.ec:8490/v1/api/message/business-one",
-        "source": "1",
-        "destination": "578c19ea-5930-417d-8fcc-661536f0775c",
-        "operation": "R",
-        "verb": "GET",
-        "path": "/BinLocations",
-        "ambiente": "PRUEBA"
-    }
+    "lot": "935-5-2024"
 }'
 ```
 

@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import { PGService } from "../../domain/services/pgService";
-import { response } from "../../../shared/infrastrucutre/dependencies";
+
 import { UpdateRequest } from "../../aplication/interfaces/update-request";
 import { SearchRequest } from "../../aplication/interfaces/search-request";
+import { VesselLotInformation } from '../../aplication/usercases/vessel-lot-information';
+import { response } from "../../../shared/infrastructure/dependencies";
 export class HaccpController {
     constructor(
         private readonly pgService: PGService,
+        private readonly VesselLotInformation: VesselLotInformation
     ) {}
     async addLot(req: Request, res: Response) {
         try {
@@ -13,11 +16,7 @@ export class HaccpController {
             await this.pgService.addLot(lot);
             return res.status(201).json(response.success( "Lote agregado"));
         } catch (error) {
-            if (error instanceof Error) {
-                return res.status(500).json(response.failed(500, error.message));
-            }else{
-                return res.status(500).json(response.failed(500, "Error al agregar lote"));
-            }
+            return response.handleError(res, error);
         }
     }
 
@@ -28,12 +27,7 @@ export class HaccpController {
             const lotUpdate = await this.pgService.updateState(updateRequest);
             return res.status(200).json(response.success("Estado actualizado", lotUpdate, lotUpdate.length));
         } catch (error) {
-            if (error instanceof Error) {
-                return res.status(500).json(response.failed(500, error.message));
-            } else {
-                return res.status(500).json(response.failed(500, "Error al actualizar estado"));
-            }
-
+            return response.handleError(res, error);
         }
     }
 
@@ -51,14 +45,18 @@ export class HaccpController {
             };
             return res.status(200).json(response.success("Búsqueda por estado", items));
         } catch (error) {
-            if (error instanceof Error) {
-                return res.status(500).json(response.failed(500, error.message));
-            } else {
-                return res.status(500).json(response.failed(500, "Error al buscar por estado"));
-            }
+            return response.handleError(res, error);
         }
     }
 
-
-
+    async vesselLotInfo(req: Request, res: Response) {
+        try {
+            const { lot } = req.body;
+            console.log("lot" + lot);
+            const vesselLotInfo = await this.VesselLotInformation.fetchVesselLotInfo(lot);
+            return res.status(200).json(response.success("Información de lote de embarcación", vesselLotInfo, vesselLotInfo.length));
+        } catch (error) {
+            return response.handleError(res, error);
+        }
+    }
 }

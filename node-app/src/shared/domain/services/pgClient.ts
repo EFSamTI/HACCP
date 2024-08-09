@@ -1,5 +1,5 @@
-import pool from "../../infrastrucutre/database/pool";
-import { logger } from "../../infrastrucutre/dependencies";
+import pool from "../../infrastructure/database/pool";
+import { logger } from "../../infrastructure/dependencies";
 
 export class PgClient{
   async runQuery(query: string, params: any[]) {

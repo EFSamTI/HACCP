@@ -8,7 +8,7 @@ public class QuartzRoute extends RouteBuilder {
 
   @Override
   public void configure() throws Exception {
-    from("quartz://eu/sample?cron=0/5+*+*+*+*+?")
+    from("quartz://eu/sample?cron={{cron.one}}")
         .setBody(constant("Hello"))
         .to("log:info");
   }

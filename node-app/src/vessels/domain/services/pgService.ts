@@ -22,7 +22,6 @@ export class PGService {
         this.logger.info('State updated');
         return response;
     }
-
     async totalByState (state?: number) {
         this.logger.info('Searching total by state');
         const query = 'select * from total_by_state($1);';
@@ -30,7 +29,6 @@ export class PGService {
         this.logger.info('Total by state searched');
         return response;
     }
-
     async searchByState  (searchRequest: SearchRequest) {
         this.logger.info('Searching by state');
         const query = 'select * from search_by_state($1,$2,$3);';
@@ -38,6 +36,4 @@ export class PGService {
         this.logger.info('Searched by state');
         return response;
     }
-
-
 }

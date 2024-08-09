@@ -4,19 +4,14 @@
     "target": "es2018", 
     "module": "commonjs", 
     "strict": true, 
-    "baseUrl": ".",
+    //"baseUrl": "./src",
     "outDir": "dist", 
-    "rootDir": ".", 
+    "rootDir": "./src", 
     "skipLibCheck": true, 
     "esModuleInterop": true, 
     "moduleResolution": "node", 
     "resolveJsonModule": true,
     "removeComments": true,
-
-    "paths": {
-      "@src/*": ["src/*"] 
-    },
-
     "strictNullChecks": true, 
     "strictFunctionTypes": true, 
     "strictPropertyInitialization": true, 

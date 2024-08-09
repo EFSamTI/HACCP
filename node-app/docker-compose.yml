@@ -6,9 +6,9 @@ services:
       dockerfile: Dockerfile.node
     hostname: web
     restart: unless-stopped
-    expose:
-      - "6505" 
-    command: ["npm", "run", "start:prod"]
+    ports:
+      - "6505:6505"
+    # command: ["npm", "run", "start:prod"]
   haccp-nginx:
     container_name: haccp-reverse-proxy
     build:
